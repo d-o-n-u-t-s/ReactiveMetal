@@ -8,7 +8,6 @@
 
 import AVFoundation
 import MetalKit
-import Result
 import ReactiveSwift
 
 // MARK: Main
@@ -43,7 +42,7 @@ public final class Camera {
 // MARK: Protocol
 extension Camera: ImageSource {
     
-    public var output: SignalProducer<MTLTexture, NoError> {
+    public var output: SignalProducer<MTLTexture, Never> {
         
         return self.camera.sampleBuffer.filterMap { [weak self] value in
             #if arch(i386) || arch(x86_64)

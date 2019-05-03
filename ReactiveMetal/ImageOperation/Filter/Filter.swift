@@ -7,7 +7,6 @@
 //
 
 import MetalKit
-import Result
 import ReactiveSwift
 
 // MARK: Main
@@ -51,7 +50,7 @@ open class Filter: NSObject {
 // MARK: Protocol
 extension Filter: ImageOperation {
     
-    public final var output: SignalProducer<MTLTexture, NoError> { return self._output.producer.skipNil() }
+    public final var output: SignalProducer<MTLTexture, Never> { return self._output.producer.skipNil() }
 }
 
 extension Filter: Renderer { }

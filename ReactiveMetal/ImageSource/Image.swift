@@ -7,7 +7,6 @@
 //
 
 import MetalKit
-import Result
 import ReactiveSwift
 
 // MARK: Main
@@ -26,7 +25,7 @@ public class Image {
 // MARK: Protocol
 extension Image: ImageSource {
 
-    public var output: SignalProducer<MTLTexture, NoError> {
+    public var output: SignalProducer<MTLTexture, Never> {
         return self.image.producer.filterMap { $0._mtlTexture }
     }
 }
