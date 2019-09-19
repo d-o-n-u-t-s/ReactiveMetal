@@ -20,7 +20,7 @@ public final class SmoothingMaskFilter: Filter {
         self.intensity = MutableProperty<Float>(intensity)
         
         let preferredTextureSize = MTL.default.preferredTextureSize
-        let size = float2(Float(preferredTextureSize.width), Float(preferredTextureSize.height))
+        let size = SIMD2<Float>(Float(preferredTextureSize.width), Float(preferredTextureSize.height))
         
         let vertices = SmoothingFilterVertex.vertices(for: size)
 

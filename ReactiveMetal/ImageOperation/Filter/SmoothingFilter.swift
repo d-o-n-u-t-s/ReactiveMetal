@@ -29,7 +29,7 @@ internal extension SmoothingFilterDirection {
         case .horizontal:   width = 1.0 / Float(inputTextureSize.width)
         }
         
-        let size = float2(width, height)
+        let size = SIMD2<Float>(width, height)
         return SmoothingFilterVertex.vertices(for: size)
     }
 }

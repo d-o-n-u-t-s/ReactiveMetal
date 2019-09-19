@@ -13,19 +13,19 @@ import simd
 struct SmoothingFilterVertex {
     
     /// Position
-    var position: float4
+    var position: SIMD4<Float>
     
     /// Texture coordinates
-    var texcoord: float2
+    var texcoord: SIMD2<Float>
     
     /// Texture size
-    var size: float2
+    var size: SIMD2<Float>
 }
 
 // MARK: Protocol
 extension SmoothingFilterVertex: Vertex {
     
-    public init() { self.init(position: float4(), texcoord: float2(), size: float2())}
+    public init() { self.init(position: SIMD4<Float>(), texcoord: SIMD2<Float>(), size: SIMD2<Float>())}
     
     public static let functionName = "vertex_smoothing"
 }
@@ -33,12 +33,12 @@ extension SmoothingFilterVertex: Vertex {
 // MARK: Internal
 internal extension SmoothingFilterVertex {
     
-    static func vertices(for size: float2) -> [SmoothingFilterVertex] {
+    static func vertices(for size: SIMD2<Float>) -> [SmoothingFilterVertex] {
         return [
-            SmoothingFilterVertex(position: float4(-1, 1, 0, 1), texcoord: float2(0, 0), size: size),
-            SmoothingFilterVertex(position: float4(-1, -1, 0, 1), texcoord: float2(0, 1), size: size),
-            SmoothingFilterVertex(position: float4(1, -1, 0, 1), texcoord: float2(1, 1), size: size),
-            SmoothingFilterVertex(position: float4(1, 1, 0, 1), texcoord: float2(1, 0), size: size)
+            SmoothingFilterVertex(position: SIMD4<Float>(-1, 1, 0, 1), texcoord: SIMD2<Float>(0, 0), size: size),
+            SmoothingFilterVertex(position: SIMD4<Float>(-1, -1, 0, 1), texcoord: SIMD2<Float>(0, 1), size: size),
+            SmoothingFilterVertex(position: SIMD4<Float>(1, -1, 0, 1), texcoord: SIMD2<Float>(1, 1), size: size),
+            SmoothingFilterVertex(position: SIMD4<Float>(1, 1, 0, 1), texcoord: SIMD2<Float>(1, 0), size: size)
         ]
     }
 }
