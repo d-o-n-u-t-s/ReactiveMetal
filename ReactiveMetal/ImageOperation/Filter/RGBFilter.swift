@@ -29,9 +29,8 @@ public final class RGBFilter: Filter {
         self.blue = MutableProperty<Float>(blue)
         
         super.init(fragmentFunction: FragmentFunction.init(name: "fragment_rgb", params: red, green, blue))
-
-        self.params(at: 0) <~ self.red.map { $0 }
-        self.params(at: 1) <~ self.green.map { $0 }
-        self.params(at: 2) <~ self.blue.map { $0 }
+        self.params(at: 0) <~ (self.red.map { $0 } as Property<MTLBufferConvertible>)
+        self.params(at: 1) <~ (self.green.map { $0 } as Property<MTLBufferConvertible>)
+        self.params(at: 2) <~ (self.blue.map { $0 } as Property<MTLBufferConvertible>)
     }
 }

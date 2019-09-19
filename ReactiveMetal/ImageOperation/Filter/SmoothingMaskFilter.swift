@@ -27,6 +27,6 @@ public final class SmoothingMaskFilter: Filter {
         super.init(vertexFunction: VertexFunction(vertices: vertices),
             fragmentFunction: FragmentFunction(name: "fragment_smoothing_mask", maxSourceCount: 2, params: intensity))
         
-        self.params(at: 0) <~ self.intensity.map { $0 }
+        self.params(at: 0) <~ (self.intensity.map { $0 } as Property<MTLBufferConvertible>)
     }
 }

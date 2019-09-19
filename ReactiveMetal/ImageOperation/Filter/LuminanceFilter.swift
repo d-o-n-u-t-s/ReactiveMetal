@@ -21,6 +21,6 @@ public final class LuminanceFilter: Filter {
         
         super.init(fragmentFunction: FragmentFunction(name: "fragment_luminance", params: intensity))
 
-        self.params(at: 0) <~ self.intensity.map { $0 }
+        self.params(at: 0) <~ (self.intensity.map { $0 } as Property<MTLBufferConvertible>)
     }
 }
