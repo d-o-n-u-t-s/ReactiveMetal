@@ -62,7 +62,7 @@ internal extension Renderer {
     
     /// Received new texture (reactive)
     var textureReceived: Signal<(index: Int, element: MTLTexture?), Never> {
-        return Signal.merge(self.fragmentFunction.textures.enumerated().map { index, element in element.map { value in (index, value) }.signal }
+        return Signal.merge(self.fragmentFunction.textures.enumerated().map { index, element in element.map { value in (index: index, element: value) }.signal }
         )
     }
 }
