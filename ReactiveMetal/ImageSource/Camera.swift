@@ -7,7 +7,7 @@
 //
 
 import AVFoundation
-import Result
+import MetalKit
 import ReactiveSwift
 
 // MARK: Main
@@ -28,8 +28,9 @@ public final class Camera {
         #if arch(i386) || arch(x86_64)
             return nil
         #else
-            guard let camera = AVCamera(position: position),
-            let textureCache = MTL.default.makeTextureCache()
+            guard MTL.default != nil,
+            let textureCache = MTL.default.makeTextureCache(),
+            let camera = AVCamera(position: position)
             else { return nil }
         
             self.camera = camera
@@ -41,7 +42,7 @@ public final class Camera {
 // MARK: Protocol
 extension Camera: ImageSource {
     
-    public var output: SignalProducer<MTLTexture, NoError> {
+    public var output: SignalProducer<MTLTexture, Never> {
         
         return self.camera.sampleBuffer.filterMap { [weak self] value in
             #if arch(i386) || arch(x86_64)
@@ -59,6 +60,12 @@ extension Camera: ImageSource {
 
 // MARK: Public
 public extension Camera {
+
+    /// Is session running (reactive)
+    var isRunning: MutableProperty<Bool> { return self.camera.isRunning }
+    
+    /// Is session pausing (reactive)
+    var isPausing: MutableProperty<Bool> { return self.camera.isPausing }
     
     /// Video orientation (reactive)
     var orientation: MutableProperty<AVCaptureVideoOrientation> { return self.camera.orientation }

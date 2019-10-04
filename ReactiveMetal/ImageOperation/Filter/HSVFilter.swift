@@ -30,8 +30,8 @@ public final class HSVFilter: Filter {
         
         super.init(fragmentFunction: FragmentFunction(name: "fragment_hsv", params: hue, saturation, `value`))
         
-        self.params(at: 0) <~ self.hue.map { $0 }
-        self.params(at: 1) <~ self.saturation.map { $0 }
-        self.params(at: 2) <~ self.`value`.map { $0 }
+        self.params(at: 0) <~ (self.hue.map { $0 } as Property<MTLBufferConvertible>)
+        self.params(at: 1) <~ (self.saturation.map { $0 } as Property<MTLBufferConvertible>)
+        self.params(at: 2) <~ (self.`value`.map { $0 } as Property<MTLBufferConvertible>)
     }
 }

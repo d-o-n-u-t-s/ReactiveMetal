@@ -14,13 +14,8 @@ import ReactiveSwift
 class ViewController: UIViewController {
 
     var source: ImageSource!
-    var source2: ImageSource!
     var filter: ImageOperation!
-    lazy var target: RenderView! = {
-        let view = RenderView()
-        view?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        return view
-    }()
+    var target: RenderView!
     
     // var debuggers: [Debugger] = []
 
@@ -43,13 +38,10 @@ class ViewController: UIViewController {
         }
         
         self.source = camera
-        self.source2 = Image("wallpaper")
+        self.target = RenderView()
         
-        self.filter = BlendFilter(interpolant: -0.5)
-        
-        (self.filter, at: 0) <-- self.source
-        (self.filter, at: 1) <-- self.source2
-        
+        self.filter = BrightnessFilter()
+
         self.target <-- self.filter
         
         self.view.addSubview(self.target)

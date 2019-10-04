@@ -13,13 +13,13 @@ import simd
 public struct DefaultVertex {
     
     /// Position
-    private(set) public var position: float4
+    private(set) public var position: SIMD4<Float>
     
     /// Texture coordinates
-    private(set) public var texcoord: float2
+    private(set) public var texcoord: SIMD2<Float>
     
     /// Initializes with positions and texture coordinates
-    public init(position: float4, texcoord: float2) {
+    public init(position: SIMD4<Float>, texcoord: SIMD2<Float>) {
         self.position = position
         self.texcoord = texcoord
     }
@@ -28,7 +28,7 @@ public struct DefaultVertex {
 // MARK: Protocol
 extension DefaultVertex: Vertex {
 
-    public init() { self.init(position: float4(), texcoord: float2()) }
+    public init() { self.init(position: SIMD4<Float>(), texcoord: SIMD2<Float>()) }
     
     public static let functionName = "vertex_default"
 }
@@ -44,15 +44,15 @@ public extension DefaultVertex {
 private extension DefaultVertex {
     
     /// Bottom left coordinate
-    static let bottomLeft = DefaultVertex(position: float4(-1, 1, 0, 1), texcoord: float2(0, 0))
+    static let bottomLeft = DefaultVertex(position: SIMD4<Float>(-1, 1, 0, 1), texcoord: SIMD2<Float>(0, 0))
     
     /// Top left coordinate
-    static let topLeft = DefaultVertex(position: float4(-1, -1, 0, 1), texcoord: float2(0, 1))
+    static let topLeft = DefaultVertex(position: SIMD4<Float>(-1, -1, 0, 1), texcoord: SIMD2<Float>(0, 1))
     
     /// Top right coordinate
-    static let topRight = DefaultVertex(position: float4(1, -1, 0, 1), texcoord: float2(1, 1))
+    static let topRight = DefaultVertex(position: SIMD4<Float>(1, -1, 0, 1), texcoord: SIMD2<Float>(1, 1))
 
     /// Bottom right coordinate
     static let bottomRight =
-        DefaultVertex(position: float4(1, 1, 0, 1), texcoord: float2(1, 0))
+        DefaultVertex(position: SIMD4<Float>(1, 1, 0, 1), texcoord: SIMD2<Float>(1, 0))
 }

@@ -8,7 +8,6 @@
 
 import UIKit
 import AVFoundation
-import Result
 import ReactiveSwift
 
 // MARK: Main
@@ -20,6 +19,12 @@ final class AVCamera: NSObject {
     
     /// Captured sample buffer (reactive)
     private let _sampleBuffer = MutableProperty<CMSampleBuffer?>(nil)
+    
+    /// Is session running (reactive)
+    let isRunning = MutableProperty<Bool>(true)
+    
+    /// Is session pausing (reactive)
+    let isPausing = MutableProperty<Bool>(false)
     
     /// Video orientation (reactive)
     let orientation = MutableProperty<AVCaptureVideoOrientation>(.portrait)
@@ -99,19 +104,19 @@ final class AVCamera: NSObject {
         // Fix mirror
         if connection.isVideoMirroringSupported { connection.isVideoMirrored = position == .front }
         
-        // Start running
-        self.session.startRunning()
+        // Reactively bind
+        self.bind()
     }
     
-    deinit { self.session.stopRunning() }
+    deinit { self.stopCapture() }
 }
 
 // MARK: Protocol
 extension AVCamera: AVCaptureVideoDataOutputSampleBufferDelegate {
-
-    final func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+    
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
-        guard self.output == output else { return }
+        guard self.output == output, !self.isPausing.value else { return }
 
         self._sampleBuffer.swap(sampleBuffer)
     }
@@ -119,9 +124,40 @@ extension AVCamera: AVCaptureVideoDataOutputSampleBufferDelegate {
 
 // MARK: Internal
 internal extension AVCamera {
-    
+
     /// Captured sample buffer (reactive)
-    var sampleBuffer: SignalProducer<CMSampleBuffer, NoError> {
-        return self._sampleBuffer.producer.skipNil()
+    var sampleBuffer: SignalProducer<CMSampleBuffer, Never> { return self._sampleBuffer.producer.skipNil() }
+}
+
+// MARK: Private
+private extension AVCamera {
+    
+    /// Reactively bind
+    @discardableResult
+    func bind() -> Disposable? {
+        let disposable = CompositeDisposable()
+        
+        disposable += self.isRunning.producer.startWithValues { [weak self] value in
+            guard let `self` = self else { return }
+            
+            if value { `self`.startCapture() }
+            else { `self`.stopCapture() }
+        }
+        
+        return disposable
+    }
+    
+    // Starts the capture session
+    func startCapture() {
+        guard !self.session.isRunning else { return }
+        
+        DispatchQueue.main.async { self.session.startRunning() }
+    }
+    
+    // Stops the capture session
+    func stopCapture() {
+        guard self.session.isRunning else { return }
+        
+        DispatchQueue.main.async { self.session.stopRunning() }
     }
 }

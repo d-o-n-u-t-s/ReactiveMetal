@@ -44,6 +44,8 @@ public final class RenderView: UIView {
         
         super.init(frame: frame)
 
+        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
         self.addSubview(self.metalView)
     }
 

@@ -8,14 +8,13 @@
 
 import UIKit
 import MetalKit
-import Result
 import ReactiveSwift
 import ReactiveCocoa
 
 public extension Reactive where Base: UIDevice {
     
     /// Returns the physical orientation of the device (observable)
-    var orientation: Signal<UIDeviceOrientation, NoError> {
+    var orientation: Signal<UIDeviceOrientation, Never> {
         return NotificationCenter.default.reactive.notifications(forName: UIDevice.orientationDidChangeNotification).map { ($0.object as? UIDevice)!.orientation }
     }
 }
