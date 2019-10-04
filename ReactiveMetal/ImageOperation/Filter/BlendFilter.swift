@@ -21,6 +21,6 @@ public final class BlendFilter: Filter {
         
         super.init(fragmentFunction: FragmentFunction(name: "fragment_blend", maxSourceCount: 2, params: interpolant))
         
-        self.params(at: 0) <~ self.interpolant.map { $0 }
+        self.params(at: 0) <~ (self.interpolant.map { $0 } as Property<MTLBufferConvertible>)
     }
 }

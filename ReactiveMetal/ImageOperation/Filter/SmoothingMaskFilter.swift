@@ -20,13 +20,13 @@ public final class SmoothingMaskFilter: Filter {
         self.intensity = MutableProperty<Float>(intensity)
         
         let preferredTextureSize = MTL.default.preferredTextureSize
-        let size = float2(Float(preferredTextureSize.width), Float(preferredTextureSize.height))
+        let size = SIMD2<Float>(Float(preferredTextureSize.width), Float(preferredTextureSize.height))
         
         let vertices = SmoothingFilterVertex.vertices(for: size)
 
         super.init(vertexFunction: VertexFunction(vertices: vertices),
             fragmentFunction: FragmentFunction(name: "fragment_smoothing_mask", maxSourceCount: 2, params: intensity))
         
-        self.params(at: 0) <~ self.intensity.map { $0 }
+        self.params(at: 0) <~ (self.intensity.map { $0 } as Property<MTLBufferConvertible>)
     }
 }

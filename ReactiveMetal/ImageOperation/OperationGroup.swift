@@ -7,7 +7,6 @@
 //
 
 import MetalKit
-import Result
 import ReactiveSwift
 
 // MARK: Main
@@ -37,7 +36,7 @@ open class OperationGroup {
 // MARK: Protocol
 extension OperationGroup: ImageOperation {
     
-    public var output: SignalProducer<MTLTexture, NoError> { return self.operations.last!.output }
+    public var output: SignalProducer<MTLTexture, Never> { return self.operations.last!.output }
     
     public var sourceCount: Int {
         get { return self.operations.first!.sourceCount }

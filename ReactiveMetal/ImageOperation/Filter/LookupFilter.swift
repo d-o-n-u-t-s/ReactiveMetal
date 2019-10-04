@@ -29,7 +29,7 @@ public final class LookupFilter: Filter {
 
         (self, at: 1) <-- self._image
 
-        self.params(at: 0) <~ self.intensity.map { $0 }
+        self.params(at: 0) <~ (self.intensity.map { $0 } as Property<MTLBufferConvertible>)
     }
 }
 

@@ -7,7 +7,6 @@
 //
 
 import MetalKit
-import Result
 import ReactiveSwift
 
 // MARK: Main
@@ -15,5 +14,5 @@ import ReactiveSwift
 public protocol ImageSource: AnyObject {
     
     /// Image output (observable)
-    var output: SignalProducer<MTLTexture, NoError> { get }
+    var output: SignalProducer<MTLTexture, Never> { get }
 }

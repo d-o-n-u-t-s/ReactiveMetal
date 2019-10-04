@@ -8,7 +8,6 @@
 
 import UIKit
 import AVFoundation
-import Result
 import ReactiveSwift
 
 // MARK: Main
@@ -127,7 +126,7 @@ extension AVCamera: AVCaptureVideoDataOutputSampleBufferDelegate {
 internal extension AVCamera {
 
     /// Captured sample buffer (reactive)
-    var sampleBuffer: SignalProducer<CMSampleBuffer, NoError> { return self._sampleBuffer.producer.skipNil() }
+    var sampleBuffer: SignalProducer<CMSampleBuffer, Never> { return self._sampleBuffer.producer.skipNil() }
 }
 
 // MARK: Private
